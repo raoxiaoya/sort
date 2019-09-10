@@ -12,17 +12,17 @@
 function quickSort($data)
 {
     $len = count($data);
-    $i   = 1;
-    $j   = $len - 1;
+    $i   = 1;// 左边哨兵
+    $j   = $len - 1;// 右边哨兵
 
     if ($len > 2) {
-        $f   = $data[0];
+        $flag   = $data[0];// 设立基准
         while ($i < $j) {
             $l = $data[$i];
             $r = $data[$j];
 
-            if ($r <= $f) {
-                if ($l > $f) {
+            if ($r <= $flag) {
+                if ($l > $flag) {
                     $data[$i] = $r;
                     $data[$j] = $l;
                     $j--;
@@ -39,7 +39,7 @@ function quickSort($data)
 
         $i--;// 跳出循环之前做了自增操作，需自减
         $data[0]  = $data[$i];
-        $data[$i] = $f;
+        $data[$i] = $flag;
 
         $d1 = quickSort(array_slice($data, 0, $i + 1));
         $d2 = quickSort(array_slice($data, $i + 1));
