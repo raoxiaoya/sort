@@ -49,7 +49,7 @@ function quickSort($data)
     } elseif ($len == 2) {
         if ($data[0] > $data[1]) {
             $temp = $data[0];
-            $data[0]  = $data[1];
+            $data[0] = $data[1];
             $data[1] = $temp;
         }
     }
