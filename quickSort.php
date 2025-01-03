@@ -9,52 +9,31 @@
  * ----------------------------------------------------------
  */
 
-function quickSort($data)
+function quickSort(&$arr, $low, $high)
 {
-    $len = count($data);
-    $i   = 1;// 左边哨兵
-    $j   = $len - 1;// 右边哨兵
+    if ($low < $high) {
+        $pivot = $arr[$high];
+        $i = $low - 1;
 
-    if ($len > 2) {
-        $flag   = $data[0];// 设立基准
-        while ($i < $j) {
-            $l = $data[$i];
-            $r = $data[$j];
+        for ($j = $low; $j <= $high - 1; $j++) {
+            if ($arr[$j] < $pivot) {
+                $i++;
 
-            if ($r <= $flag) {
-                if ($l > $flag) {
-                    $data[$i] = $r;
-                    $data[$j] = $l;
-                    $j--;
-                    $i++;
-                } else {
-                    $i++;
-                    continue;
-                }
-            } else {
-                $j--;
-                continue;
+                $temp = $arr[$i];
+                $arr[$i] = $arr[$j];
+                $arr[$j] = $temp;
             }
         }
 
-        $i--;// 跳出循环之前做了自增操作，需自减
-        $data[0]  = $data[$i];
-        $data[$i] = $flag;
+        $temp = $arr[$i + 1];
+        $arr[$i + 1] = $arr[$high];
+        $arr[$high] = $temp;
 
-        $d1 = quickSort(array_slice($data, 0, $i + 1));
-        $d2 = quickSort(array_slice($data, $i + 1));
+        $pi = $i + 1;
 
-        return array_merge($d1, $d2);
-
-    } elseif ($len == 2) {
-        if ($data[0] > $data[1]) {
-            $temp = $data[0];
-            $data[0] = $data[1];
-            $data[1] = $temp;
-        }
+        quickSort($arr, $low, $pi - 1);
+        quickSort($arr, $pi + 1, $high);
     }
-
-    return $data;
 }
 
 $arr = [];
@@ -65,10 +44,10 @@ for ($i = 0; $i < $len; $i++) {
 
 $start = microtime(true);
 
-$ret = quickSort($arr);
+quickSort($arr, 0, $len - 1);
 
 $end = microtime(true);
 
-echo $end - $start;// 0.013572931289673
+echo $end - $start;
 echo PHP_EOL;
 
